@@ -1,6 +1,7 @@
 @import '../../../scss/variables.scss';
 
 #header {
+  user-select: none;
   height: $headerHeight;
   background-color: #0a0a0a;
 

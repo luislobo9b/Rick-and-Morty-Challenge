@@ -3,62 +3,93 @@
 #navbar {
   display: grid;
   grid-template-columns: repeat(5, 1fr);
+  grid-template-columns: repeat(5, min-content);
 
   height: calc($headerHeight - (12px * 2));
-  min-width: calc(48px * 5);
 
   overflow: hidden;
   border: 2px solid #3d3d3d;
   border-radius: 0.5rem;
 
+  // font
+  font-weight: 700;
+
   .navbar-home,
   .navbar-favorites {
+    cursor: pointer;
     display: grid;
     place-items: center;
 
+    background-color: #0a0a0a;
+    color: #a4a4a4;
+
     transition: 0.4s;
 
-    .btn-container {
+    .navbar-icon {
       display: grid;
-      place-items: center;
 
-      height: 100%;
-      width: 100%;
-
-      cursor: pointer;
-      background-color: black;
-      color: white;
-
-      transition: 0.4s;
-
-      &:hover {
-        filter: invert(1);
-        transition: 0.4s;
+      mat-icon {
+        transform: scale(0.9);
+        position: relative;
+        top: 1px;
       }
+    }
+
+    & > div > div {
+      padding: 0 6px;
+    }
+    & > div > .navbar-icon {
+      padding-right: 0;
     }
   }
 
   .navbar-home {
     grid-column: span 2;
     grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(2, min-content);
   }
 
   .navbar-favorites {
     grid-column: span 3;
     grid-template-columns: repeat(3, 1fr);
+
+    & > div:last-of-type {
+      padding-right: 6px;
+    }
+  }
+
+  .count-favorites {
+    $circleSize: 26px;
+
+    text-align: center;
+
+    height: $circleSize;
+    width: $circleSize;
+    background-color: white;
+    border-radius: 99px;
+    border: 2px solid #3d3d3d;
+
+    span {
+      color: #0a0a0a;
+      font-size: 16px;
+      position: relative;
+      top: -1px;
+    }
   }
 
   &.is-home {
-    .navbar-home .btn-container {
+    .navbar-home {
+      cursor: default;
       background-color: white;
-      color: black;
+      color: #0a0a0a;
       transition: 0.4s;
     }
   }
   &.is-favorites {
-    .navbar-favorites .btn-container {
+    .navbar-favorites {
+      cursor: default;
       background-color: white;
-      color: black;
+      color: #0a0a0a;
       transition: 0.4s;
     }
   }
