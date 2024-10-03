@@ -7,12 +7,14 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HomeComponent } from './pages/home/home.component';
 import { FavoritesComponent } from './pages/favorites/favorites.component';
+import { HeaderComponent } from './components/header/header.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
-    FavoritesComponent
+    FavoritesComponent,
+    HeaderComponent
   ],
   imports: [
     BrowserModule,
