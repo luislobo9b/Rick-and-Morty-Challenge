@@ -1,0 +1,17 @@
+$headerHeight: 64px;
+
+#header {
+  height: $headerHeight;
+  background-color: #0a0a0a;
+
+  display: grid;
+  place-items: center;
+
+  .container {
+    max-width: 100%;
+
+    .logo {
+      height: calc($headerHeight - 20px);
+    }
+  }
+}
