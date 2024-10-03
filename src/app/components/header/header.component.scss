@@ -1,4 +1,4 @@
-$headerHeight: 64px;
+@import '../../../scss/variables.scss';
 
 #header {
   height: $headerHeight;
@@ -11,7 +11,7 @@ $headerHeight: 64px;
     max-width: 100%;
 
     .logo {
-      height: calc($headerHeight - 20px);
+      height: calc($headerHeight - (12px * 2));
     }
   }
 }
