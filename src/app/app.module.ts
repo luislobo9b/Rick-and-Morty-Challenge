@@ -14,6 +14,7 @@ import { FavoritesComponent } from './pages/favorites/favorites.component';
 import { HeaderComponent } from './components/header/header.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { InputSearchComponent } from './components/input-search/input-search.component';
+import { MainContainerComponent } from './components/main-container/main-container.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import { InputSearchComponent } from './components/input-search/input-search.com
     FavoritesComponent,
     HeaderComponent,
     NavbarComponent,
-    InputSearchComponent
+    InputSearchComponent,
+    MainContainerComponent
   ],
   imports: [
     BrowserModule,
