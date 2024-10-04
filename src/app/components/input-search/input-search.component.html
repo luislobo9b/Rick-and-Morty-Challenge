@@ -1,1 +1,25 @@
-<p>input-search works!</p>
+<form id="InputSearch">
+  <label for="name">
+    Pesquisar
+  </label>
+  <input
+    class="form-control"
+    type="text"
+    name="name"
+    autocomplete="off"
+    (keydown)="handleInput()"
+    [formControl]="searchControl"
+    [(ngModel)]="inputName"
+  />
+  <div class="position-relative">
+    <ul class="ul-autocomplete list-group" *ngIf="showAutocomplete">
+      <li
+        class="list-group-item list-group-item-action"
+        (click)="handleAutocomplete(value)"
+        *ngFor="let value of filteredNames | async"
+      >
+        {{ value }}
+      </li>
+    </ul>
+  </div>
+</form>

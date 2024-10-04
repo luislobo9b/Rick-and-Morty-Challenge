@@ -1,0 +1,44 @@
+#InputSearch {
+  user-select: none;
+  position: relative;
+  $labelFontSize: 14px;
+
+  label {
+    position: absolute;
+    top: 0;
+    left: 12px;
+    z-index: 1;
+
+    // font
+    font-size: $labelFontSize;
+    color: #a4a4a4;
+    background-color: #1f1f1f;
+    padding: 0 6px;
+  }
+
+  input {
+    $position: calc( $labelFontSize / 2 + 2px);
+    position: relative;
+    top: $position;
+    margin-bottom: calc(0.25rem + $position * 2);
+
+    background-color: transparent;
+    padding-top: 12px;
+    padding-bottom: 12px;
+
+    border: 2px solid #3d3d3d;
+    border-radius: 0.75rem;
+
+    // font
+    font-size: 22px;
+    color: white;
+  }
+
+  .ul-autocomplete {
+    position: absolute;
+    z-index: 9999;
+    cursor: pointer;
+    width: 100%;
+    font-size: 22px;
+  }
+}
