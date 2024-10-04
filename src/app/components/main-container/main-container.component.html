@@ -1,1 +1,19 @@
-<p>main-container works!</p>
+<div id="MainContainer" class="mt-5">
+  <div id="empty" class="is-home" *ngIf="results.length === 0">
+    <div class="text-center">
+      <h1 class="h1-empty">
+        <span>Nada foi encontrado</span>
+        <span>Parece que você ainda não tem favoritos</span>
+      </h1>
+      <h2 class="h2-empty">
+        <span>Tente realizar uma nova busca.</span>
+        <span>Volte à página inicial e escolha os melhores para você.</span>
+      </h2>
+      <button class="btn-primary btn-go-to-home">
+        Voltar ao início
+      </button>
+    </div>
+  </div>
+  <div class="results" *ngIf="results.length > 0">
+  </div>
+</div>

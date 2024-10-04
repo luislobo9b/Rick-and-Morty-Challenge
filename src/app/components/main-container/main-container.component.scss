@@ -1,0 +1,75 @@
+@import "../../../scss/variables.scss";
+
+$m5: 3rem;
+$h1Size: 4.25rem;
+
+#empty {
+  user-select: none;
+  display: grid;
+  place-items: center;
+
+  width: 100%;
+  height: calc(95vh - $headerHeight - $m5 - $h1Size - $m5 - $m5); // leia #1
+  min-height: 200px;
+
+  background-color: #0a0a0a;
+
+  border: 2px solid #3d3d3d;
+  border-radius: 0.75rem;
+
+  .h1-empty,
+  .h2-empty {
+    span:nth-child(2) {
+      display: none;
+    }
+  }
+
+  .h1-empty {
+    font-size: 2.5rem;
+    color: white;
+    font-weight: 700;
+  }
+
+  .h2-empty {
+    font-size: 1.5rem;
+    color: #a4a4a4;
+    font-weight: 400;
+  }
+
+  .btn-go-to-home {
+    display: none;
+
+    margin: 0 auto;
+    margin-top: 1rem;
+
+    border-radius: 0.75rem;
+    padding: 0.25rem 1.25rem;
+
+    // font
+    font-size: 1.35rem;
+    color: #0a0a0a;
+    font-weight: 700;
+  }
+
+  &.is-favorites {
+    .h1-empty,
+    .h2-empty {
+      span:nth-child(1) {
+        display: none;
+      }
+      span:nth-child(2) {
+        display: inline;
+      }
+    }
+    .btn-go-to-home {
+      display: block;
+    }
+  }
+}
+
+/*
+  #1
+  95% = 100% - 5% margem de segurança
+  depois segue a sequência do layout, header, margin, título, margin
+  e finaliza com mais uma margem pra não bater no final da página
+*/

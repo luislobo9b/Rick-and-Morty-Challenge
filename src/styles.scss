@@ -34,9 +34,13 @@ html body {
 }
 
 h1.h1-title {
+  user-select: none;
+  margin-bottom: 0;
+
+  // font
   font-family: 'Creepster', system-ui;
   font-size: 4.25rem;
-  color: #00B5CC;
+  color: #00b5cc;
 
   -webkit-text-stroke: 2px;
   -webkit-text-stroke-color: #b2df28;

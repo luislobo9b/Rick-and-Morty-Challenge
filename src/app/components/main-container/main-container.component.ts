@@ -6,5 +6,5 @@ import { Component } from '@angular/core';
   styleUrls: ['./main-container.component.scss']
 })
 export class MainContainerComponent {
-
+  results = []
 }
