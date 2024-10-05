@@ -2,6 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { Observable, catchError, map, of } from 'rxjs';
 
+import {
+  IRickAndMortyApiCharactersResponse,
+  IInfo,
+  ICharacter
+} from '../../interfaces/IRickAndMortyApi';
+
 @Component({
   selector: 'app-input-search',
   templateUrl: './input-search.component.html',
