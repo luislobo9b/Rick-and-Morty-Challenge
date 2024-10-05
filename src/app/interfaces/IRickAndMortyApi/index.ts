@@ -1,3 +1,4 @@
+// rest
 export interface IRickAndMortyApiCharactersResponse {
   info: IInfo;
   results: ICharacter[];
@@ -29,4 +30,20 @@ export interface ICharacter {
   episode: string[];
   url: string;
   created: string;
+}
+
+// graphql
+export interface IRickAndMortyCharactersNames {
+  data: {
+    characters: {
+      results: {
+        name: string;
+      }[];
+    };
+  };
+}
+
+export interface IRelevance {
+  name: string;
+  relevance: number;
 }
