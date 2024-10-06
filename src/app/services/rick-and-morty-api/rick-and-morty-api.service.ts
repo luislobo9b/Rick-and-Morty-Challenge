@@ -23,7 +23,7 @@ export class RickAndMortyApiService {
     const bodyReq = {
       query: `
         query {
-          characters(filter: { name: "${name}" }) {
+          characters(filter: { name: "${encodeURIComponent(name)}" }) {
             results {
               name
             }

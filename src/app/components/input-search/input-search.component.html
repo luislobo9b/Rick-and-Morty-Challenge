@@ -7,7 +7,7 @@
     type="text"
     name="name"
     autocomplete="off"
-    (keydown)="handleInput()"
+    (input)="handleInput()"
     [formControl]="searchControl"
     [(ngModel)]="inputName"
   />

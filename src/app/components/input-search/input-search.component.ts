@@ -1,11 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { Observable, catchError, map, of } from 'rxjs';
+import { Observable, catchError, debounceTime, distinctUntilChanged, map, of, switchMap, shareReplay } from 'rxjs';
+import { RickAndMortyApiService } from 'src/app/services/rick-and-morty-api/rick-and-morty-api.service';
 
 import {
-  IRickAndMortyApiCharactersResponse,
-  IInfo,
-  ICharacter
+  IRelevance
 } from '../../interfaces/IRickAndMortyApi';
 
 @Component({
@@ -16,47 +15,14 @@ import {
 export class InputSearchComponent implements OnInit {
   searchControl = new FormControl()
   inputName = ""
-  showAutocomplete = true
-  names = [
-  	"Rick Sanchez",
-  	"Morty Smith",
-  	"Summer Smith",
-  	"Beth Smith",
-  	"Jerry Smith",
-  	"Abadango Cluster Princess",
-  	"Abradolf Lincler",
-  	"Adjudicator Rick",
-  	"Agency Director",
-  	"Alan Rails",
-  	"Albert Einstein",
-  	"Alexander",
-  	"Alien Googah",
-  	"Alien Morty",
-  	"Alien Rick",
-  	"Amish Cyborg",
-  	"Annie",
-  	"Antenna Morty",
-  	"Antenna Rick",
-  	"Ants in my Eyes Johnson"
-  ].sort()
+  showAutocomplete = false
+
+  constructor(private rickAndMortyApiService: RickAndMortyApiService) {}
 
   filteredNames!: Observable<string[]>
 
-  filterNames(value: string) {
-    const filterName = value.toLowerCase()
-
-    if (filterName === "") {
-      return []
-    }
-
-    return this.names.filter(name => {
-        const nameLowerCase = name.toLocaleLowerCase()
-        return nameLowerCase.startsWith(filterName) && nameLowerCase !== filterName
-      })
-  }
-
   handleInput(): void {
-    this.showAutocomplete = true
+    this.showAutocomplete = this.inputName.length !== 0
   }
 
   handleAutocomplete(value: string): void {
@@ -65,12 +31,58 @@ export class InputSearchComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.filteredNames = this.searchControl.valueChanges.pipe(
-      map(name => this.filterNames(name)),
+    const shareValueChanges$ = this.searchControl.valueChanges.pipe(
+      debounceTime(300),
+      distinctUntilChanged(),
+      shareReplay()
+    )
+
+    this.filteredNames = shareValueChanges$.pipe(
+      switchMap(name => this.rickAndMortyApiService.getRickAndMortyCharacterNames(name).pipe(
+        map((names: string[]) => {
+          return this.sortByRelevance(this.filterNames(names))
+        })
+      )),
       catchError(error => {
         console.error(error)
         return of([])
       })
     )
+
+    this.filteredNames.subscribe()
+  }
+
+  sortByRelevance(names:string[]):string[] {
+    const namesAndRelevance:IRelevance[] = names.map(name => {
+      return {
+        name,
+        relevance: this.calcRelevance(name)
+      }
+    })
+    return namesAndRelevance.sort(({relevance: a}, {relevance: b}) => {
+      return a > b ? -1 : a === b ? 0 : 1
+    }).map(item => item.name)
+  }
+
+  calcRelevance(name:string): number {
+    let relevance = 0
+
+    for(let i = 0; i < this.inputName.length; i++) {
+      const currentCharacter = this.inputName[i].toLowerCase()
+
+      if (currentCharacter === name[i].toLowerCase()) {
+        relevance++
+      } else {
+        break
+      }
+    }
+
+    return relevance
+  }
+
+  filterNames(names: string[]) {
+    return names.filter(name => {
+      return name.toLowerCase().includes(this.inputName.toLowerCase())
+    })
   }
 }
