@@ -1,5 +1,5 @@
 <div id="MainContainer" class="mt-5">
-  <div id="empty" class="is-home" *ngIf="results.length === 0">
+  <div id="empty" class="is-home" *ngIf="characters.length === 0">
     <div class="text-center">
       <h1 class="h1-empty">
         <span>Nada foi encontrado</span>
@@ -14,6 +14,9 @@
       </button>
     </div>
   </div>
-  <div class="results" *ngIf="results.length > 0">
+  <div class="results" *ngIf="characters.length > 0">
+    <div *ngFor="let character of characters">
+      {{character.name}}
+    </div>
   </div>
 </div>

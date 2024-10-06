@@ -1,8 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { RickAndMortyApiService } from './../../services/rick-and-morty-api/rick-and-morty-api.service';
 
 import {
-  IRickAndMortyApiCharactersResponse,
-  IInfo,
   ICharacter
 } from '../../interfaces/IRickAndMortyApi';
 
@@ -11,6 +10,14 @@ import {
   templateUrl: './main-container.component.html',
   styleUrls: ['./main-container.component.scss']
 })
-export class MainContainerComponent {
-  results = []
+export class MainContainerComponent implements OnInit {
+  characters:ICharacter[] = []
+
+  constructor(private rickAndMortyApiService:RickAndMortyApiService) {}
+
+  ngOnInit(): void {
+    this.rickAndMortyApiService.characters$.subscribe(characters => {
+      this.characters = characters
+    })
+  }
 }
