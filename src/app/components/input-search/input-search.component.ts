@@ -4,6 +4,7 @@ import { Observable, catchError, debounceTime, distinctUntilChanged, map, of, sw
 import { RickAndMortyApiService } from 'src/app/services/rick-and-morty-api/rick-and-morty-api.service';
 
 import {
+  ICharacter,
   IRelevance
 } from '../../interfaces/IRickAndMortyApi';
 
@@ -38,11 +39,12 @@ export class InputSearchComponent implements OnInit {
     )
 
     this.filteredNames = shareValueChanges$.pipe(
-      switchMap(name => this.rickAndMortyApiService.getRickAndMortyCharacterNames(name).pipe(
-        map((names: string[]) => {
-          return this.sortByRelevance(this.filterNames(names))
-        })
-      )),
+      switchMap(name => {
+        return this.rickAndMortyApiService.getRickAndMortyCharacterNames(name)
+      }),
+      map((names: string[]) => {
+        return this.sortByRelevance(this.filterNames(names))
+      }),
       catchError(error => {
         console.error(error)
         return of([])
@@ -50,6 +52,16 @@ export class InputSearchComponent implements OnInit {
     )
 
     this.filteredNames.subscribe()
+
+    shareValueChanges$.pipe(
+      switchMap(name => {
+        return this.rickAndMortyApiService.getRickAndMortyCharacters(name)
+      }),
+      catchError(error => {
+        console.error(error)
+        return of([])
+      })
+    ).subscribe()
   }
 
   sortByRelevance(names:string[]):string[] {
