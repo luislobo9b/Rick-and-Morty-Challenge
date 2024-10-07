@@ -1,10 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { Observable, catchError, debounceTime, distinctUntilChanged, map, of, switchMap, shareReplay } from 'rxjs';
+import { Observable, catchError, debounceTime, distinctUntilChanged, map, of, switchMap, shareReplay, first } from 'rxjs';
 import { RickAndMortyApiService } from 'src/app/services/rick-and-morty-api/rick-and-morty-api.service';
 
 import {
-  ICharacter,
   IRelevance
 } from '../../interfaces/IRickAndMortyApi';
 
@@ -22,12 +21,28 @@ export class InputSearchComponent implements OnInit {
 
   filteredNames!: Observable<string[]>
 
+  handleKeyDown($event:KeyboardEvent): void {
+    if (/^(Tab|Enter)$/.test($event.key)) {
+      $event.preventDefault()
+
+      this.filteredNames.pipe(first()).subscribe(names => {
+        if (names.length && names[0].length) {
+          this.inputName = names[0]
+        }
+      })
+    }
+  }
+
   handleInput(): void {
     this.showAutocomplete = this.inputName.length !== 0
   }
 
   handleAutocomplete(value: string): void {
     this.inputName = value
+    this.showAutocomplete = false
+  }
+
+  hiddenAutocomplete() {
     this.showAutocomplete = false
   }
 
