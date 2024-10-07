@@ -17,6 +17,7 @@ export class RickAndMortyApiService {
   apiGraphqlUrl = 'https://rickandmortyapi.com/graphql'
 
   names:string[] = []
+  lastSearch:string = ""
 
   charactersSubject = new Subject<ICharacter[]>()
   characters$ = this.charactersSubject.asObservable()
@@ -25,6 +26,10 @@ export class RickAndMortyApiService {
   constructor(private http: HttpClient) {}
 
   getRickAndMortyCharacters(name: string = ''): Observable<ICharacter[]> {
+    if (this.lastSearch !== name) { // reset allCharacters
+      this.allCharacters = []
+      this.lastSearch = name
+    }
     const searchByName = name !== ''
 
     return this.http.get<IRickAndMortyApiCharactersResponse>(
