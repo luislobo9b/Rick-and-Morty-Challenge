@@ -10,6 +10,10 @@
   outline: none;
 }
 
+div.custom-container {
+  max-width: calc(300px * 3 + 12px * 8); // img = 300px, bs padding = 12px  (p-container p img p p img p p img p p-container)
+}
+
 input:focus {
   box-shadow: none !important;
 }
