@@ -25,8 +25,15 @@ html body {
 }
 
 // fonts
+.text-ellipsis {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
 .font-creepster {
   font-family: 'Creepster', system-ui;
+  letter-spacing: -0.7px;
 }
 
 .font-poppins {
