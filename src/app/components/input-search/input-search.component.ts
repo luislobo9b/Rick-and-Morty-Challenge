@@ -1,11 +1,11 @@
-import { Component, OnInit } from '@angular/core';
-import { FormControl } from '@angular/forms';
-import { Observable, catchError, debounceTime, distinctUntilChanged, map, of, switchMap, shareReplay, first } from 'rxjs';
-import { RickAndMortyApiService } from 'src/app/services/rick-and-morty-api/rick-and-morty-api.service';
+import { Component, OnInit } from '@angular/core'
+import { FormControl } from '@angular/forms'
+import { Observable, catchError, debounceTime, distinctUntilChanged, map, of, switchMap, shareReplay, first } from 'rxjs'
+import { RickAndMortyApiService } from 'src/app/services/rick-and-morty-api/rick-and-morty-api.service'
 
 import {
   IRelevance
-} from '../../interfaces/IRickAndMortyApi';
+} from '../../interfaces/IRickAndMortyApi'
 
 @Component({
   selector: 'app-input-search',

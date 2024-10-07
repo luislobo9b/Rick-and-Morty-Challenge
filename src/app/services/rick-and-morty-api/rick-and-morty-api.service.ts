@@ -1,6 +1,6 @@
-import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Subject, map, Observable, catchError, of } from 'rxjs';
+import { Injectable } from '@angular/core'
+import { HttpClient } from '@angular/common/http'
+import { Subject, map, Observable, catchError, of } from 'rxjs'
 
 import {
   IRickAndMortyApiCharactersResponse,
@@ -8,7 +8,7 @@ import {
   ICharacter,
   IRickAndMortyCharactersNames,
   IRickAndMortyCharactersResult
-} from '../../interfaces/IRickAndMortyApi';
+} from '../../interfaces/IRickAndMortyApi'
 
 @Injectable({
   providedIn: 'root'

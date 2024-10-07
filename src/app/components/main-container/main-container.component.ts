@@ -1,9 +1,9 @@
-import { Component, OnInit } from '@angular/core';
-import { RickAndMortyApiService } from './../../services/rick-and-morty-api/rick-and-morty-api.service';
+import { Component, OnInit } from '@angular/core'
+import { RickAndMortyApiService } from './../../services/rick-and-morty-api/rick-and-morty-api.service'
 
 import {
   IRickAndMortyCharactersResult
-} from '../../interfaces/IRickAndMortyApi';
+} from '../../interfaces/IRickAndMortyApi'
 
 @Component({
   selector: 'app-main-container',
