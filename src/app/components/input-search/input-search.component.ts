@@ -43,7 +43,11 @@ export class InputSearchComponent implements OnInit {
   }
 
   hiddenAutocomplete() {
-    this.showAutocomplete = false
+    const ulAutocomplete = document.querySelector(".ul-autocomplete")
+
+    if (!(ulAutocomplete && ulAutocomplete.matches(":hover, :focus"))) {
+      this.showAutocomplete = false
+    }
   }
 
   ngOnInit(): void {
