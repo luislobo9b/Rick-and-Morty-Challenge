@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { RickAndMortyApiService } from './../../services/rick-and-morty-api/rick-and-morty-api.service';
 
 import {
-  ICharacter
+  IRickAndMortyCharactersResult
 } from '../../interfaces/IRickAndMortyApi';
 
 @Component({
@@ -11,13 +11,16 @@ import {
   styleUrls: ['./main-container.component.scss']
 })
 export class MainContainerComponent implements OnInit {
-  characters:ICharacter[] = []
+  rickAndMortyCharactersResult:IRickAndMortyCharactersResult = {
+    allCharacters: [],
+    hasNextPage: false
+  }
 
   constructor(private rickAndMortyApiService:RickAndMortyApiService) {}
 
   ngOnInit(): void {
-    this.rickAndMortyApiService.characters$.subscribe(characters => {
-      this.characters = characters
+    this.rickAndMortyApiService.characters$.subscribe(result => {
+      this.rickAndMortyCharactersResult = result
     })
   }
 }

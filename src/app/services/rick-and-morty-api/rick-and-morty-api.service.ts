@@ -6,7 +6,8 @@ import {
   IRickAndMortyApiCharactersResponse,
   IInfo,
   ICharacter,
-  IRickAndMortyCharactersNames
+  IRickAndMortyCharactersNames,
+  IRickAndMortyCharactersResult
 } from '../../interfaces/IRickAndMortyApi';
 
 @Injectable({
@@ -19,15 +20,19 @@ export class RickAndMortyApiService {
   names:string[] = []
   lastSearch:string = ""
 
-  charactersSubject = new Subject<ICharacter[]>()
+  charactersSubject = new Subject<IRickAndMortyCharactersResult>()
   characters$ = this.charactersSubject.asObservable()
-  allCharacters:ICharacter[] = []
+
+  rickAndMortyCharactersResult:IRickAndMortyCharactersResult = {
+    allCharacters: [],
+    hasNextPage: false
+  }
 
   constructor(private http: HttpClient) {}
 
-  getRickAndMortyCharacters(name: string = ''): Observable<ICharacter[]> {
+  getRickAndMortyCharacters(name: string = ''): Observable<IRickAndMortyCharactersResult> {
     if (this.lastSearch !== name) { // reset allCharacters
-      this.allCharacters = []
+      this.rickAndMortyCharactersResult.allCharacters = []
       this.lastSearch = name
     }
     const searchByName = name !== ''
@@ -35,10 +40,15 @@ export class RickAndMortyApiService {
     return this.http.get<IRickAndMortyApiCharactersResponse>(
       this.apiRestUrl + (searchByName ? `?name=${encodeURI(name)}` : '')
     ).pipe(
-      map((response:IRickAndMortyApiCharactersResponse): ICharacter[] => {
-        this.allCharacters = this.removeDuplicateCharacters([...this.allCharacters, ...response.results])
-        this.charactersSubject.next(this.allCharacters)
-        return this.allCharacters
+      map((response:IRickAndMortyApiCharactersResponse): IRickAndMortyCharactersResult => {
+        // infinite scroll
+          this.rickAndMortyCharactersResult.hasNextPage = typeof(response?.info?.next) === "string"
+
+        this.rickAndMortyCharactersResult.allCharacters = this.removeDuplicateCharacters(
+          [...this.rickAndMortyCharactersResult.allCharacters, ...response.results]
+        )
+        this.charactersSubject.next(this.rickAndMortyCharactersResult)
+        return this.rickAndMortyCharactersResult
       }),
       catchError((ResponseError:{error: string}) => {
         const { error } = ResponseError
@@ -46,9 +56,9 @@ export class RickAndMortyApiService {
           console.error(error)
         }
 
-        this.allCharacters = []
-        this.charactersSubject.next(this.allCharacters)
-        return of(this.allCharacters)
+        this.rickAndMortyCharactersResult.allCharacters = []
+        this.charactersSubject.next(this.rickAndMortyCharactersResult)
+        return of(this.rickAndMortyCharactersResult)
       })
     )
   }

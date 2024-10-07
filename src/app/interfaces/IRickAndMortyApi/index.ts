@@ -47,3 +47,8 @@ export interface IRelevance {
   name: string;
   relevance: number;
 }
+
+export interface IRickAndMortyCharactersResult {
+  allCharacters: ICharacter[];
+  hasNextPage: boolean;
+}

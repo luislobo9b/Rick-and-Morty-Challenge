@@ -1,5 +1,5 @@
 <div id="MainContainer" class="mt-5">
-  <div id="empty" class="is-home" *ngIf="characters.length === 0">
+  <div id="empty" class="is-home" *ngIf="rickAndMortyCharactersResult.allCharacters.length === 0">
     <div class="text-center">
       <h1 class="h1-empty">
         <span>Nada foi encontrado</span>
@@ -14,8 +14,8 @@
       </button>
     </div>
   </div>
-  <div class="row" *ngIf="characters.length > 0">
-    <div class="character-container col-12 col-md-6 col-lg-4 mb-5" *ngFor="let character of characters">
+  <div class="row" *ngIf="rickAndMortyCharactersResult.allCharacters.length > 0">
+    <div class="character-container col-12 col-md-6 col-lg-4 mb-5" *ngFor="let character of rickAndMortyCharactersResult.allCharacters">
       <div class="character-container-inner">
         <div class="favorite-character">
           <mat-icon class="material-symbols-outlined" fontIcon="favorite" aria-label="Favoritos" aria-hidden="false"></mat-icon>
