@@ -1,6 +1,6 @@
-import { Component, HostListener, OnInit } from '@angular/core'
+import { Component, HostListener, OnDestroy, OnInit } from '@angular/core'
 import { RickAndMortyApiService } from './../../services/rick-and-morty-api/rick-and-morty-api.service'
-import { Subject, Subscription, debounceTime } from 'rxjs'
+import { BehaviorSubject, Subject, Subscription, debounceTime, first } from 'rxjs'
 
 import {
   IRickAndMortyCharactersResult
@@ -11,10 +11,11 @@ import {
   templateUrl: './main-container.component.html',
   styleUrls: ['./main-container.component.scss']
 })
-export class MainContainerComponent implements OnInit {
+export class MainContainerComponent implements OnDestroy, OnInit {
   rickAndMortyCharactersResult:IRickAndMortyCharactersResult = {
     allCharacters: [],
-    hasNextPage: false
+    hasNextPage: false,
+    loadingNextPage: new BehaviorSubject<boolean>(false)
   }
 
   scrollSubject = new Subject<Event>()
@@ -23,8 +24,32 @@ export class MainContainerComponent implements OnInit {
   constructor(private rickAndMortyApiService:RickAndMortyApiService) {
     this.subscription = this.scrollSubject.pipe(
       debounceTime(300)
-    ).subscribe(event => {
+    ).subscribe(() => {
+      if (this.isAlmostAtPageEnd()) {
+        this.rickAndMortyApiService.handlePagination(
+          this.rickAndMortyCharactersResult.hasNextPage
+        ).pipe(
+          first()
+        ).subscribe()
+      }
     })
+  }
+
+  isAlmostAtPageEnd (): boolean {
+    const characters = [...document.querySelectorAll(".character-img-container")]
+
+    if (characters.length) {
+      const lastCharacter = characters.at(-1)!,
+        { height, top } = lastCharacter.getBoundingClientRect(),
+        distance = top - window.innerHeight
+
+      // infinite scroll
+      if (distance - (height * 4) < 0) {
+        return true
+      }
+    }
+
+    return false
   }
 
   @HostListener('window:scroll', ['$event'])
@@ -36,6 +61,8 @@ export class MainContainerComponent implements OnInit {
     this.rickAndMortyApiService.characters$.subscribe(result => {
       this.rickAndMortyCharactersResult = result
     })
+
+    this.rickAndMortyApiService.loadingNextPage$.subscribe()
   }
 
   ngOnDestroy(): void {

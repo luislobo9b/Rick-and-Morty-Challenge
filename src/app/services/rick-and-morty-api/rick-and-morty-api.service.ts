@@ -92,7 +92,6 @@ export class RickAndMortyApiService {
       }),
       finalize(() => {
         this.loadingNextPageSubject.next(false)
-
         this.charactersSubject.next(this.rickAndMortyCharactersResult)
         return of(this.rickAndMortyCharactersResult)
       })
