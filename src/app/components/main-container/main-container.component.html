@@ -1,5 +1,5 @@
 <div id="MainContainer" class="mt-5">
-  <div id="empty" class="is-home" *ngIf="rickAndMortyCharactersResult.allCharacters.length === 0">
+  <div id="empty" class="is-home" *ngIf="rickAndMortyCharactersResult.allCharacters.length === 0 && rickAndMortyCharactersResult.loadingNextPage.getValue() === false">
     <div class="text-center">
       <h1 class="h1-empty">
         <span>Nada foi encontrado</span>
@@ -26,12 +26,12 @@
         </div>
         <div class="character-details-container">
           <h1 class="font-creepster text-ellipsis">{{character.name}}</h1>
-          <p>{{character.species}}</p>
+          <p class="text-ellipsis">{{character.species}}</p>
         </div>
       </div>
     </div>
   </div>
-  <h1 class="h1-title text-center" *ngIf="loadingNextPage">
+  <h1 class="h1-title text-center" *ngIf="rickAndMortyCharactersResult.loadingNextPage.getValue()">
     CARREGANDO...
   </h1>
 </div>
