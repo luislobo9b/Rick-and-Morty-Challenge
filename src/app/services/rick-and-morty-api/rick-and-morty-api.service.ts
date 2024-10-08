@@ -1,10 +1,9 @@
 import { Injectable } from '@angular/core'
 import { HttpClient } from '@angular/common/http'
-import { Subject, map, Observable, catchError, of } from 'rxjs'
+import { BehaviorSubject, map, Observable, catchError, of, finalize, first } from 'rxjs'
 
 import {
   IRickAndMortyApiCharactersResponse,
-  IInfo,
   ICharacter,
   IRickAndMortyCharactersNames,
   IRickAndMortyCharactersResult
@@ -18,45 +17,82 @@ export class RickAndMortyApiService {
   apiGraphqlUrl = 'https://rickandmortyapi.com/graphql'
 
   names:string[] = []
-  lastSearch:string = ""
+  lastSearchlastNameSearched:string = ''
 
-  charactersSubject = new Subject<IRickAndMortyCharactersResult>()
-  characters$ = this.charactersSubject.asObservable()
+  private loadingNextPageSubject = new BehaviorSubject<boolean>(false)
+  loadingNextPage$ = this.loadingNextPageSubject.asObservable()
 
   rickAndMortyCharactersResult:IRickAndMortyCharactersResult = {
     allCharacters: [],
-    hasNextPage: false
+    hasNextPage: false,
+    loadingNextPage: this.loadingNextPageSubject
   }
+
+  private charactersSubject = new BehaviorSubject<IRickAndMortyCharactersResult>(this.rickAndMortyCharactersResult)
+  characters$ = this.charactersSubject.asObservable()
 
   constructor(private http: HttpClient) {}
 
-  getRickAndMortyCharacters(name: string = ''): Observable<IRickAndMortyCharactersResult> {
-    if (this.lastSearch !== name) { // reset allCharacters
-      this.rickAndMortyCharactersResult.allCharacters = []
-      this.lastSearch = name
+  private currentPage = 1
+
+  handlePagination(componentLoadNextPage = false): Observable<boolean> {
+    const loadingNextPage = this.loadingNextPageSubject.getValue()
+
+    if (componentLoadNextPage && !loadingNextPage) {
+      this.currentPage++
+      this.getRickAndMortyCharacters(this.lastSearchlastNameSearched, this.currentPage).pipe(first()).subscribe()
     }
-    const searchByName = name !== ''
+    return of(componentLoadNextPage)
+  }
 
-    return this.http.get<IRickAndMortyApiCharactersResponse>(
-      this.apiRestUrl + (searchByName ? `?name=${name}` : '')
-    ).pipe(
+  getRickAndMortyCharacters(name: string = '', page = 1): Observable<IRickAndMortyCharactersResult> {
+    const loadingNextPage = this.loadingNextPageSubject.getValue()
+
+    if (loadingNextPage) {
+      this.charactersSubject.next(this.rickAndMortyCharactersResult)
+      return of(this.rickAndMortyCharactersResult)
+    }
+    this.loadingNextPageSubject.next(true)
+
+    // infinite scroll
+    if (this.lastSearchlastNameSearched !== name) { // reset allCharacters
+      this.rickAndMortyCharactersResult.allCharacters = []
+      this.lastSearchlastNameSearched = name
+      page = 1
+      this.currentPage = 1
+    }
+
+    const searchByName = name !== '',
+      params:{page:number, name?:string} = {
+        page
+      }
+
+    if (searchByName) {
+      params.name = name
+    }
+
+    return this.http.get<IRickAndMortyApiCharactersResponse>(this.apiRestUrl, { params }).pipe(
       map((response:IRickAndMortyApiCharactersResponse): IRickAndMortyCharactersResult => {
-        // infinite scroll
-          this.rickAndMortyCharactersResult.hasNextPage = typeof(response?.info?.next) === "string"
-
         this.rickAndMortyCharactersResult.allCharacters = this.removeDuplicateCharacters(
           [...this.rickAndMortyCharactersResult.allCharacters, ...response.results]
         )
-        this.charactersSubject.next(this.rickAndMortyCharactersResult)
+        // infinite scroll
+        this.rickAndMortyCharactersResult.hasNextPage = typeof(response?.info?.next) === 'string'
+
         return this.rickAndMortyCharactersResult
       }),
-      catchError((ResponseError:{error: string}) => {
+      catchError((ResponseError:{error: string}):Observable<IRickAndMortyCharactersResult> => {
         const { error } = ResponseError
-        if (ResponseError.error !== "There is nothing here") {
+        if (ResponseError.error !== 'There is nothing here') {
           console.error(error)
         }
 
         this.rickAndMortyCharactersResult.allCharacters = []
+        return of(this.rickAndMortyCharactersResult)
+      }),
+      finalize(() => {
+        this.loadingNextPageSubject.next(false)
+
         this.charactersSubject.next(this.rickAndMortyCharactersResult)
         return of(this.rickAndMortyCharactersResult)
       })

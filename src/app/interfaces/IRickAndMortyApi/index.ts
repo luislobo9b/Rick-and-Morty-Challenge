@@ -1,3 +1,5 @@
+import { BehaviorSubject } from 'rxjs'
+
 // rest
 export interface IRickAndMortyApiCharactersResponse {
   info: IInfo;
@@ -51,4 +53,5 @@ export interface IRelevance {
 export interface IRickAndMortyCharactersResult {
   allCharacters: ICharacter[];
   hasNextPage: boolean;
+  loadingNextPage: BehaviorSubject<boolean>;
 }
