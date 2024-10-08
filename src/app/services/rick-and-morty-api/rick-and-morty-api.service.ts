@@ -38,7 +38,7 @@ export class RickAndMortyApiService {
     const searchByName = name !== ''
 
     return this.http.get<IRickAndMortyApiCharactersResponse>(
-      this.apiRestUrl + (searchByName ? `?name=${encodeURI(name)}` : '')
+      this.apiRestUrl + (searchByName ? `?name=${name}` : '')
     ).pipe(
       map((response:IRickAndMortyApiCharactersResponse): IRickAndMortyCharactersResult => {
         // infinite scroll
@@ -67,7 +67,7 @@ export class RickAndMortyApiService {
     const bodyReq = {
       query: `
         query {
-          characters(filter: { name: "${encodeURIComponent(name)}" }) {
+          characters(filter: { name: "${name}" }) {
             results {
               name
             }
