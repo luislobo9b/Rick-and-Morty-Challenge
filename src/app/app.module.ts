@@ -15,6 +15,7 @@ import { HeaderComponent } from './components/header/header.component'
 import { NavbarComponent } from './components/navbar/navbar.component'
 import { InputSearchComponent } from './components/input-search/input-search.component'
 import { MainContainerComponent } from './components/main-container/main-container.component'
+import { BtnFavoriteComponent } from './components/btn-favorite/btn-favorite.component'
 
 @NgModule({
   declarations: [
@@ -24,7 +25,8 @@ import { MainContainerComponent } from './components/main-container/main-contain
     HeaderComponent,
     NavbarComponent,
     InputSearchComponent,
-    MainContainerComponent
+    MainContainerComponent,
+    BtnFavoriteComponent
   ],
   imports: [
     BrowserModule,
