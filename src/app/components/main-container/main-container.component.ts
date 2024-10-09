@@ -19,7 +19,7 @@ export class MainContainerComponent implements OnDestroy, OnInit {
   }
 
   scrollSubject = new Subject<Event>()
-  subscription: Subscription = new Subscription()
+  scrollSubscription!: Subscription
 
   constructor(private rickAndMortyApiService:RickAndMortyApiService) {
   }
@@ -47,7 +47,7 @@ export class MainContainerComponent implements OnDestroy, OnInit {
   }
 
   ngOnInit(): void {
-    this.subscription = this.scrollSubject.pipe(
+    this.scrollSubscription = this.scrollSubject.pipe(
       debounceTime(300)
     ).subscribe(() => {
       if (this.isAlmostAtPageEnd()) {
@@ -67,6 +67,6 @@ export class MainContainerComponent implements OnDestroy, OnInit {
   }
 
   ngOnDestroy(): void {
-    this.subscription.unsubscribe()
+    this.scrollSubscription.unsubscribe()
   }
 }
