@@ -27,7 +27,9 @@ export class BtnFavoriteComponent implements OnDestroy, OnInit {
 
   ngOnInit(): void {
     this.favoritesSubscription = this.favorites$.subscribe(favorites => {
-      this.isFavorited = favorites.includes(this.currentCharacter)
+      this.isFavorited = Boolean(favorites.find(character => {
+        return this.currentCharacter.id === character.id
+      }))
     })
   }
 
