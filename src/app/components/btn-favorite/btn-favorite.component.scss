@@ -1,2 +1,47 @@
 .btn-favorite {
+  cursor: pointer;
+
+  display: grid;
+  place-items: center;
+
+  position: absolute;
+  top: 0;
+  right: 0;
+
+  width: 3.25rem;
+  height: 3.25rem;
+
+  border-bottom-left-radius: 9rem;
+
+  mat-icon {
+    position: relative;
+    top: -3px;
+    right: -5px;
+
+    background-color: transparent;
+
+    // toggle
+    &:nth-child(1) {
+      display: block;
+      color: white;
+    }
+    &:nth-child(2) {
+      display: none;
+      color: #0a0a0a;
+    }
+  }
+
+  &.active {
+    background-color: white;
+
+    mat-icon {
+      // toggle
+      &:nth-child(1) {
+        display: none;
+      }
+      &:nth-child(2) {
+        display: block;
+      }
+    }
+  }
 }
