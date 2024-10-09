@@ -95,21 +95,6 @@ $h1Size: 4.25rem;
     color: #0a0a0a;
     font-weight: 700;
   }
-
-  &.is-favorites {
-    .h1-empty,
-    .h2-empty {
-      span:nth-child(1) {
-        display: none;
-      }
-      span:nth-child(2) {
-        display: inline;
-      }
-    }
-    .btn-go-to-home {
-      display: block;
-    }
-  }
 }
 
 /*

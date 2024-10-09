@@ -1,15 +1,15 @@
 <div id="MainContainer" class="mt-5">
-  <div id="empty" class="is-home" *ngIf="rickAndMortyCharactersResult.allCharacters.length === 0 && rickAndMortyCharactersResult.loadingNextPage.getValue() === false">
+  <div id="empty" *ngIf="rickAndMortyCharactersResult.allCharacters.length === 0 && rickAndMortyCharactersResult.loadingNextPage.getValue() === false">
     <div class="text-center">
       <h1 class="h1-empty">
-        <span>Nada foi encontrado</span>
-        <span>Parece que você ainda não tem favoritos</span>
+        <span *ngIf="routeIsActive('/')">Nada foi encontrado</span>
+        <span *ngIf="routeIsActive('/favorites')">Parece que você ainda não tem favoritos</span>
       </h1>
       <h2 class="h2-empty">
-        <span>Tente realizar uma nova busca.</span>
-        <span>Volte à página inicial e escolha os melhores para você.</span>
+        <span *ngIf="routeIsActive('/')">Tente realizar uma nova busca.</span>
+        <span *ngIf="routeIsActive('/favorites')">Volte à página inicial e escolha os melhores para você.</span>
       </h2>
-      <button class="btn-primary btn-go-to-home">
+      <button class="btn-primary btn-go-to-home" [routerLink]="'/'">
         Voltar ao início
       </button>
     </div>

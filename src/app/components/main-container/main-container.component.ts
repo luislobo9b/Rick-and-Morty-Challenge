@@ -1,6 +1,7 @@
 import { Component, HostListener, OnDestroy, OnInit } from '@angular/core'
-import { RickAndMortyApiService } from './../../services/rick-and-morty-api/rick-and-morty-api.service'
+import { Router } from '@angular/router'
 import { BehaviorSubject, Subject, Subscription, debounceTime, first } from 'rxjs'
+import { RickAndMortyApiService } from './../../services/rick-and-morty-api/rick-and-morty-api.service'
 
 import {
   IRickAndMortyCharactersResult
@@ -21,7 +22,11 @@ export class MainContainerComponent implements OnDestroy, OnInit {
   scrollSubject = new Subject<Event>()
   scrollSubscription!: Subscription
 
-  constructor(private rickAndMortyApiService:RickAndMortyApiService) {
+  constructor(private router: Router, private rickAndMortyApiService:RickAndMortyApiService) { }
+
+  routeIsActive(route: string): boolean {
+    const path = this.router.url.replace(/(#|\?)(.+)?/, '')
+    return path === route
   }
 
   isAlmostAtPageEnd (): boolean {
