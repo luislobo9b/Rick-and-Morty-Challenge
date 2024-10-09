@@ -38,6 +38,10 @@ export class MainContainerComponent implements OnDestroy, OnInit {
   }
 
   isAlmostAtPageEnd (): boolean {
+    if (!this.routeIsActive('/')) {
+      return false
+    }
+
     const characters = [...document.querySelectorAll(".character-img-container")]
 
     if (characters.length) {

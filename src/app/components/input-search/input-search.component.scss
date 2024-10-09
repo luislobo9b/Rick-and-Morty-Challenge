@@ -37,6 +37,8 @@
       position: absolute;
       color: #333;
       z-index: -1;
+
+      animation: delayToShow 0.3s forwards;
     }
   }
 
@@ -50,5 +52,17 @@
     li {
       background-color: rgba(255, 255, 255, 0.9);
     }
+  }
+}
+
+@keyframes delayToShow {
+  0% {
+    opacity: 0;
+  }
+  99.99% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
   }
 }

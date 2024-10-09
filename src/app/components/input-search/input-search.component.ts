@@ -88,7 +88,7 @@ export class InputSearchComponent implements OnInit {
     ).subscribe()
   }
 
-  mergeAutocomplete(textAutocomplete: string): string {
+  mergeAutocomplete(textAutocomplete = ''): string {
     const length = this.inputName.length,
       nameLowerCase = this.inputName.toLowerCase(),
       autoCompleteLowerCase = textAutocomplete.toLocaleLowerCase()
@@ -96,6 +96,7 @@ export class InputSearchComponent implements OnInit {
     if (nameLowerCase === autoCompleteLowerCase.substring(0, length)) {
       return this.inputName + textAutocomplete.substring(length)
     }
+
     return ''
   }
 
