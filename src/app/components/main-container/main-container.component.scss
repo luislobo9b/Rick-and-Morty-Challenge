@@ -6,10 +6,16 @@ $h1Size: 4.25rem;
 #MainContainer {
   margin: 0 auto;
 
+  @media all and (max-width: 991px) { // <= BS lg
+    min-width: calc(300px + 12px * 2);
+    max-width: calc(300px * 2 + 12px * 2);
+  }
+
   .character-container {
     .character-container-inner {
       position: relative;
       overflow: hidden;
+      margin: 0 auto;
 
       max-width: 300px;
 
