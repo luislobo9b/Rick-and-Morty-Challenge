@@ -7,11 +7,21 @@
     type="text"
     name="name"
     autocomplete="off"
+    spellcheck="false"
     (keydown)="handleKeyDown($event)"
     (input)="handleInput()"
     (blur)="hiddenAutocomplete()"
     [formControl]="searchControl"
     [(ngModel)]="inputName"
+  />
+  <input
+    class="input-autocomplete form-control"
+    type="text"
+    autocomplete="off"
+    spellcheck="false"
+    [value]="filteredFirstName"
+    *ngIf="showAutocomplete && filteredFirstName"
+    [disabled]="true"
   />
   <div class="position-relative">
     <ul class="ul-autocomplete list-group font-creepster" *ngIf="showAutocomplete">

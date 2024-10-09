@@ -30,8 +30,14 @@
     border-radius: 0.75rem;
 
     // font
-    font-size: 22px;
+    font-size: 1.3rem;
     color: white;
+
+    &.input-autocomplete {
+      position: absolute;
+      color: #333;
+      z-index: -1;
+    }
   }
 
   .ul-autocomplete {

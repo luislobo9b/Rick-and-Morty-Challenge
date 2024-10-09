@@ -14,12 +14,13 @@ import {
 })
 export class InputSearchComponent implements OnInit {
   searchControl = new FormControl()
-  inputName = ""
+  inputName = ''
   showAutocomplete = false
 
   constructor(private rickAndMortyApiService: RickAndMortyApiService) {}
 
   filteredNames!: Observable<string[]>
+  filteredFirstName!: string
 
   handleKeyDown($event:KeyboardEvent): void {
     if (/^(Tab|Enter)$/.test($event.key)) {
@@ -28,6 +29,7 @@ export class InputSearchComponent implements OnInit {
       this.filteredNames.pipe(first()).subscribe(names => {
         if (names.length && names[0].length) {
           this.inputName = names[0]
+          this.filteredFirstName = names[0]
         }
       })
     }
@@ -43,9 +45,9 @@ export class InputSearchComponent implements OnInit {
   }
 
   hiddenAutocomplete() {
-    const ulAutocomplete = document.querySelector(".ul-autocomplete")
+    const ulAutocomplete = document.querySelector('.ul-autocomplete')
 
-    if (!(ulAutocomplete && ulAutocomplete.matches(":hover, :focus"))) {
+    if (!(ulAutocomplete && ulAutocomplete.matches(':hover, :focus'))) {
       this.showAutocomplete = false
     }
   }
@@ -62,7 +64,10 @@ export class InputSearchComponent implements OnInit {
         return this.rickAndMortyApiService.getRickAndMortyCharacterNames(name)
       }),
       map((names: string[]) => {
-        return this.sortByRelevance(this.filterNames(names))
+        const sortedNames = this.sortByRelevance(this.filterNames(names))
+
+        this.filteredFirstName = this.mergeAutocomplete(sortedNames[0])
+        return sortedNames
       }),
       catchError(error => {
         console.error(error)
@@ -81,6 +86,17 @@ export class InputSearchComponent implements OnInit {
         return of([])
       })
     ).subscribe()
+  }
+
+  mergeAutocomplete(textAutocomplete: string): string {
+    const length = this.inputName.length,
+      nameLowerCase = this.inputName.toLowerCase(),
+      autoCompleteLowerCase = textAutocomplete.toLocaleLowerCase()
+
+    if (nameLowerCase === autoCompleteLowerCase.substring(0, length)) {
+      return this.inputName + textAutocomplete.substring(length)
+    }
+    return ''
   }
 
   sortByRelevance(names:string[]):string[] {
