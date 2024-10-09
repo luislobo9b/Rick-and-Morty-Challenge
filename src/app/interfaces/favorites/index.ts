@@ -1,3 +1,5 @@
+import { ICharacter } from "../IRickAndMortyApi"
+
 export interface IFavoritesStateModel {
-  favorites: number[]
+  favorites: ICharacter[]
 }

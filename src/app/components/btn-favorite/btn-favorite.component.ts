@@ -1,5 +1,6 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core'
 import { Subscription, Observable } from 'rxjs'
+import { ICharacter } from 'src/app/interfaces/IRickAndMortyApi'
 
 // ngxs
 import { Select, Store } from '@ngxs/store'
@@ -13,12 +14,12 @@ import { FavoritesState } from '../../states/favorites/favorites.state'
 })
 export class BtnFavoriteComponent implements OnDestroy, OnInit {
   @Select(FavoritesState.getFavorites)
-  favorites$!: Observable<number[]>
+  favorites$!: Observable<ICharacter[]>
 
   favoritesSubscription!: Subscription
 
   @Input()
-  characterId!: number
+  currentCharacter!: ICharacter
 
   isFavorited!: boolean
 
@@ -26,7 +27,7 @@ export class BtnFavoriteComponent implements OnDestroy, OnInit {
 
   ngOnInit(): void {
     this.favoritesSubscription = this.favorites$.subscribe(favorites => {
-      this.isFavorited = favorites.includes(this.characterId)
+      this.isFavorited = favorites.includes(this.currentCharacter)
     })
   }
 
@@ -35,10 +36,10 @@ export class BtnFavoriteComponent implements OnDestroy, OnInit {
   }
 
   removeFavorite() {
-    this.store.dispatch(new RemoveFavorite(this.characterId))
+    this.store.dispatch(new RemoveFavorite(this.currentCharacter))
   }
 
   addFavorite() {
-    this.store.dispatch(new AddFavorite(this.characterId))
+    this.store.dispatch(new AddFavorite(this.currentCharacter))
   }
 }

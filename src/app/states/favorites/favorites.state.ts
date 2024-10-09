@@ -5,6 +5,8 @@ import { State, Action, StateContext, Selector } from '@ngxs/store'
 import { RemoveFavorite, AddFavorite } from './favorites.actions'
 import { IFavoritesStateModel } from '../../interfaces/favorites'
 
+import { ICharacter } from 'src/app/interfaces/IRickAndMortyApi'
+
 @State<IFavoritesStateModel>({
   name: 'favoritesState',
   defaults: {
@@ -22,7 +24,9 @@ export class FavoritesState {
   @Action(RemoveFavorite)
   removeFavorite(ctx: StateContext<IFavoritesStateModel>, action: RemoveFavorite) {
     const state = ctx.getState(),
-      filteredFavorites = state.favorites.filter(fav => fav !== action.id)
+      filteredFavorites = state.favorites.filter((character:ICharacter) => {
+        return character.id !== action.character.id
+      })
 
     ctx.setState({
       ...state,
@@ -33,7 +37,7 @@ export class FavoritesState {
   @Action(AddFavorite)
   addFavorite(ctx: StateContext<IFavoritesStateModel>, action: AddFavorite) {
     const state = ctx.getState(),
-      favorites = [...state.favorites, action.id]
+      favorites = [...state.favorites, action.character]
 
     ctx.setState({
       ...state,
