@@ -1,21 +1,21 @@
-<div id="navbar" class="is-home">
-  <div class="navbar-home">
+<div id="navbar">
+  <a class="navbar-home" [routerLink]="'/'" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
     <div>
       <div class="navbar-icon">
         <mat-icon fontIcon="home" aria-label="Home" aria-hidden="false"></mat-icon>
       </div>
     </div>
-    <div>
-      <div>Início</div>
+    <div class="p-fix">
+      <span>Início</span>
     </div>
-  </div>
-  <div class="navbar-favorites">
+  </a>
+  <a class="navbar-favorites" [routerLink]="'/favorites'" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
     <div>
       <div class="navbar-icon">
         <mat-icon fontIcon="favorite" aria-label="Favoritos" aria-hidden="false"></mat-icon>
       </div>
     </div>
-    <div style="padding-right: 3px;">
+    <div class="p-fix">
       <div>Favoritos</div>
     </div>
     <div>
@@ -25,5 +25,5 @@
         </div>
       </div>
     </div>
-  </div>
+  </a>
 </div>

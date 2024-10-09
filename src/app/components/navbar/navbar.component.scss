@@ -21,7 +21,9 @@
     place-items: center;
 
     background-color: #0a0a0a;
+
     color: #a4a4a4;
+    text-decoration: none;
 
     transition: 0.4s;
 
@@ -30,16 +32,19 @@
 
       mat-icon {
         transform: scale(0.9);
-        position: relative;
-        top: 1px;
       }
     }
 
     & > div > div {
-      padding: 0 6px;
+      padding: 0 8px;
     }
     & > div > .navbar-icon {
-      padding-right: 0;
+      padding-left: 8px;
+      padding-right: 0px;
+    }
+
+    .p-fix {
+      padding-right: 5px;
     }
   }
 
@@ -47,11 +52,25 @@
     grid-column: span 2;
     grid-template-columns: repeat(2, 1fr);
     grid-template-columns: repeat(2, min-content);
+
+    &.active {
+      cursor: default;
+      background-color: white;
+      color: #0a0a0a;
+      transition: 0.4s;
+    }
   }
 
   .navbar-favorites {
     grid-column: span 3;
     grid-template-columns: repeat(3, 1fr);
+
+    &.active {
+      cursor: default;
+      background-color: white;
+      color: #0a0a0a;
+      transition: 0.4s;
+    }
 
     & > div:last-of-type {
       padding-right: 6px;
@@ -60,6 +79,7 @@
 
   .count-favorites {
     $circleSize: 26px;
+    padding: 0 !important;
 
     text-align: center;
 
@@ -74,23 +94,6 @@
       font-size: 16px;
       position: relative;
       top: -1px;
-    }
-  }
-
-  &.is-home {
-    .navbar-home {
-      cursor: default;
-      background-color: white;
-      color: #0a0a0a;
-      transition: 0.4s;
-    }
-  }
-  &.is-favorites {
-    .navbar-favorites {
-      cursor: default;
-      background-color: white;
-      color: #0a0a0a;
-      transition: 0.4s;
     }
   }
 }
