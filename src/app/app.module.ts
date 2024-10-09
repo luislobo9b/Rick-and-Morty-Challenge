@@ -11,6 +11,7 @@ import { AppComponent } from './app.component'
 
 // ngxs
 import { NgxsModule } from '@ngxs/store'
+import { FavoritesState } from './states/favorites/favorites.state'
 
 import { HomeComponent } from './pages/home/home.component'
 import { FavoritesComponent } from './pages/favorites/favorites.component'
@@ -40,6 +41,7 @@ import { BtnFavoriteComponent } from './components/btn-favorite/btn-favorite.com
 
     // ngxs
     NgxsModule.forRoot([
+      FavoritesState
     ]),
 
     // angular-material
