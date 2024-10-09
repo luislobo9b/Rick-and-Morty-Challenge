@@ -1,3 +1,4 @@
+@import '/src/scss/variables.scss';
 @import 'scss/angular-material.scss';
 
 @import url('https://fonts.googleapis.com/icon?family=Material+Icons');
@@ -8,6 +9,10 @@
 html {
 	scrollbar-width: thin; /* 8px */
 	scrollbar-color: #00b5cc rgba(0, 0, 0, 0.5);
+}
+
+#home, #favorites {
+  padding-top: calc($headerHeight);
 }
 
 // bootstrap
