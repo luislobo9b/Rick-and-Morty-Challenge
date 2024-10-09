@@ -9,6 +9,9 @@ import { MatIconModule } from '@angular/material/icon'
 import { AppRoutingModule } from './app-routing.module'
 import { AppComponent } from './app.component'
 
+// ngxs
+import { NgxsModule } from '@ngxs/store'
+
 import { HomeComponent } from './pages/home/home.component'
 import { FavoritesComponent } from './pages/favorites/favorites.component'
 import { HeaderComponent } from './components/header/header.component'
@@ -34,6 +37,10 @@ import { BtnFavoriteComponent } from './components/btn-favorite/btn-favorite.com
     FormsModule,
     ReactiveFormsModule,
     AppRoutingModule,
+
+    // ngxs
+    NgxsModule.forRoot([
+    ]),
 
     // angular-material
     MatIconModule
