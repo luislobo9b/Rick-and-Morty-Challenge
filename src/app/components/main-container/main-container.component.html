@@ -17,7 +17,7 @@
   <div class="row" *ngIf="rickAndMortyCharactersResult.allCharacters.length > 0">
     <div class="character-container col-12 col-md-6 col-lg-4 mb-5" *ngFor="let character of rickAndMortyCharactersResult.allCharacters">
       <div class="character-container-inner">
-        <app-btn-favorite></app-btn-favorite>
+        <app-btn-favorite [characterId]="character.id"></app-btn-favorite>
         <div class="character-img-container">
           <img class="character-img" src={{character.image}} alt="{{character.name}}" />
         </div>

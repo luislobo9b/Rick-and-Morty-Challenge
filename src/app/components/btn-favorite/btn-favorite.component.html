@@ -1,4 +1,4 @@
-<div class="btn-favorite">
+<div class="btn-favorite" [class.active]="isFavorited" (click)="isFavorited ? removeFavorite() : addFavorite()">
   <mat-icon class="material-symbols-outlined" fontIcon="favorite" aria-label="Favoritos" aria-hidden="false"></mat-icon>
   <mat-icon fontIcon="favorite" aria-label="Favoritos" aria-hidden="false"></mat-icon>
 </div>
