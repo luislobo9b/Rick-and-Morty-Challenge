@@ -1,5 +1,12 @@
 <div id="MainContainer" class="mt-5">
-  <div id="empty" *ngIf="rickAndMortyCharactersResult.allCharacters.length === 0 && rickAndMortyCharactersResult.loadingNextPage.getValue() === false">
+  <div
+    id="empty"
+    *ngIf="
+      (routeIsActive('/') && rickAndMortyCharactersResult.allCharacters.length === 0) ||
+      (routeIsActive('/favorites') && favoritedCharacters.length === 0) &&
+      rickAndMortyCharactersResult.loadingNextPage.getValue() === false
+    "
+  >
     <div class="text-center">
       <h1 class="h1-empty">
         <span *ngIf="routeIsActive('/')">Nada foi encontrado</span>
@@ -14,10 +21,16 @@
       </button>
     </div>
   </div>
-  <div class="row" *ngIf="rickAndMortyCharactersResult.allCharacters.length > 0">
-    <div class="character-container col-12 col-md-6 col-lg-4 mb-5" *ngFor="let character of rickAndMortyCharactersResult.allCharacters">
+  <div
+    class="row"
+      *ngIf="
+        (routeIsActive('/') && rickAndMortyCharactersResult.allCharacters.length > 0) ||
+        routeIsActive('/favorites') && favoritedCharacters.length > 0
+      "
+    >
+    <div class="character-container col-12 col-md-6 col-lg-4 mb-5" *ngFor="let character of (routeIsActive('/') ? rickAndMortyCharactersResult.allCharacters : favoritedCharacters)">
       <div class="character-container-inner">
-        <app-btn-favorite [characterId]="character.id"></app-btn-favorite>
+        <app-btn-favorite [currentCharacter]="character"></app-btn-favorite>
         <div class="character-img-container">
           <img class="character-img" src={{character.image}} alt="{{character.name}}" />
         </div>

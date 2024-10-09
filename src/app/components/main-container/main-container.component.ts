@@ -1,11 +1,13 @@
 import { Component, HostListener, OnDestroy, OnInit } from '@angular/core'
 import { Router } from '@angular/router'
-import { BehaviorSubject, Subject, Subscription, debounceTime, first } from 'rxjs'
+import { BehaviorSubject, Observable, Subject, Subscription, debounceTime, first } from 'rxjs'
 import { RickAndMortyApiService } from './../../services/rick-and-morty-api/rick-and-morty-api.service'
 
-import {
-  IRickAndMortyCharactersResult
-} from '../../interfaces/IRickAndMortyApi'
+// ngxs
+import { Select, Store } from '@ngxs/store'
+import { FavoritesState } from '../../states/favorites/favorites.state'
+
+import { ICharacter, IRickAndMortyCharactersResult } from '../../interfaces/IRickAndMortyApi'
 
 @Component({
   selector: 'app-main-container',
@@ -13,16 +15,22 @@ import {
   styleUrls: ['./main-container.component.scss']
 })
 export class MainContainerComponent implements OnDestroy, OnInit {
+  @Select(FavoritesState.getFavorites)
+  favorites$!: Observable<ICharacter[]>
+  favoritedCharacters!: ICharacter[]
+
+  favoritesSubscription!: Subscription
+
+  scrollSubject = new Subject<Event>()
+  scrollSubscription!: Subscription
+
   rickAndMortyCharactersResult:IRickAndMortyCharactersResult = {
     allCharacters: [],
     hasNextPage: false,
     loadingNextPage: new BehaviorSubject<boolean>(false)
   }
 
-  scrollSubject = new Subject<Event>()
-  scrollSubscription!: Subscription
-
-  constructor(private router: Router, private rickAndMortyApiService:RickAndMortyApiService) { }
+  constructor(private router: Router, private store: Store, private rickAndMortyApiService:RickAndMortyApiService) { }
 
   routeIsActive(route: string): boolean {
     const path = this.router.url.replace(/(#|\?)(.+)?/, '')
@@ -52,6 +60,10 @@ export class MainContainerComponent implements OnDestroy, OnInit {
   }
 
   ngOnInit(): void {
+    this.favoritesSubscription = this.favorites$.subscribe(favorites => {
+      this.favoritedCharacters = favorites
+    })
+
     this.scrollSubscription = this.scrollSubject.pipe(
       debounceTime(300)
     ).subscribe(() => {
@@ -72,6 +84,8 @@ export class MainContainerComponent implements OnDestroy, OnInit {
   }
 
   ngOnDestroy(): void {
+    this.favoritesSubscription.unsubscribe()
+
     this.scrollSubscription.unsubscribe()
   }
 }

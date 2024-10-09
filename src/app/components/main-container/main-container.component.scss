@@ -17,6 +17,11 @@ $h1Size: 4.25rem;
       border-radius: 1rem;
 
       .character-img {
+        -webkit-user-select: none;
+        user-select: none;
+        -webkit-user-drag: none;
+        // user-drag: none;
+
         display: block;
         margin: 0 auto;
 
