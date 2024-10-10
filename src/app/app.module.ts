@@ -12,6 +12,7 @@ import { AppComponent } from './app.component'
 // ngxs
 import { NgxsModule } from '@ngxs/store'
 import { FavoritesState } from './states/favorites/favorites.state'
+import { NgxsStoragePluginModule } from '@ngxs/storage-plugin'
 
 import { HomeComponent } from './pages/home/home.component'
 import { FavoritesComponent } from './pages/favorites/favorites.component'
@@ -43,6 +44,9 @@ import { BtnFavoriteComponent } from './components/btn-favorite/btn-favorite.com
     NgxsModule.forRoot([
       FavoritesState
     ]),
+    NgxsStoragePluginModule.forRoot({
+      key: 'favoritesState'
+    }),
 
     // angular-material
     MatIconModule
