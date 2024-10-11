@@ -24,7 +24,7 @@
 * Mensagem de loading (colocando internet lenta é possível vê-lo no infinite scroll também);
 * Utilizado as fontes via Google Fonts;
 * Layout responsivo;
-* Utilizado a lib Ngxs;
+* Utilizado a lib Ngxs e o plugin @ngxs/storage-plugin para persistência no localStorage;
 * Fazer o deploy da aplicação;
 * Filtro de exclusividade de nomes (impede de aparecer 4x o mesmo personagem em situações diferentes, mas é opcional);
 
