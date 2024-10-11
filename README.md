@@ -36,6 +36,9 @@
 
 # RickAndMortyChallenge
 
+Node version 18.20.4
+NPM version 10.7.0
+
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 15.2.11.
 
 ## Development server
